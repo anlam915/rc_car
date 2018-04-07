@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+'''-----------------------------------DISTANCE FINDER NODE-------------------------------------------------------------------
+	Tasks:
+		(1) Read distance given by RP Lidar and calculate how far away from wall (desired distance)
+		(2) Given the distance, determine whether or not there is an obstacle in front (front sector)
+		(3) If there is no obstacle then clear flag to signify that vehicle should continue its normal path (parallel to wall)
+			else set the flag to navigate around an obstacle
+------------------------------------------------------------------------------------------------------------------------------
+'''
+
 import rospy
 import math
 from numpy import inf
@@ -26,8 +35,21 @@ def getRange(data,index):
 	else:
 		return distance
 
+# Function: checkSector
+# Parameters: Sector to be examined (Left, Right, Straight)
+# Output: true or false (whether or not sector is blocked)
+def checkSector(sector):
+	if(sector == "STRAIGHT"):
 
-# function: callback
+		return 0
+	if(sector == "LEFT"):
+		return 0
+	if(sector == "RIGHT"):
+		return 0
+
+
+
+# Function: callback
 # performs getRange at angle 0 and theta to calculate error
 def callback(data):
 	# rospy.loginfo("Callback called");
@@ -54,6 +76,7 @@ def callback(data):
 	msg = pid_input()
 	msg.error = error
 	msg.vel = velocity
+	msg.flag = checkSector(STRAIGHT)
 	pub.publish(msg)
 
 if __name__ == '__main__':
