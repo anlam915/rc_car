@@ -7,13 +7,14 @@ import struct
 
 
 class pid_input(genpy.Message):
-  _md5sum = "fa47338c0346c1bbb44d6bdb6896f9d9"
+  _md5sum = "2455c9230edc930265906132ca470811"
   _type = "rc_car/pid_input"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """float32 vel
-float32 error"""
-  __slots__ = ['vel','error']
-  _slot_types = ['float32','float32']
+float32 error
+bool obstacle_flag"""
+  __slots__ = ['vel','error','obstacle_flag']
+  _slot_types = ['float32','float32','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -23,7 +24,7 @@ float32 error"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       vel,error
+       vel,error,obstacle_flag
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -36,9 +37,12 @@ float32 error"""
         self.vel = 0.
       if self.error is None:
         self.error = 0.
+      if self.obstacle_flag is None:
+        self.obstacle_flag = False
     else:
       self.vel = 0.
       self.error = 0.
+      self.obstacle_flag = False
 
   def _get_types(self):
     """
@@ -53,7 +57,7 @@ float32 error"""
     """
     try:
       _x = self
-      buff.write(_struct_2f.pack(_x.vel, _x.error))
+      buff.write(_struct_2fB.pack(_x.vel, _x.error, _x.obstacle_flag))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -66,8 +70,9 @@ float32 error"""
       end = 0
       _x = self
       start = end
-      end += 8
-      (_x.vel, _x.error,) = _struct_2f.unpack(str[start:end])
+      end += 9
+      (_x.vel, _x.error, _x.obstacle_flag,) = _struct_2fB.unpack(str[start:end])
+      self.obstacle_flag = bool(self.obstacle_flag)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -81,7 +86,7 @@ float32 error"""
     """
     try:
       _x = self
-      buff.write(_struct_2f.pack(_x.vel, _x.error))
+      buff.write(_struct_2fB.pack(_x.vel, _x.error, _x.obstacle_flag))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -95,11 +100,12 @@ float32 error"""
       end = 0
       _x = self
       start = end
-      end += 8
-      (_x.vel, _x.error,) = _struct_2f.unpack(str[start:end])
+      end += 9
+      (_x.vel, _x.error, _x.obstacle_flag,) = _struct_2fB.unpack(str[start:end])
+      self.obstacle_flag = bool(self.obstacle_flag)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_2f = struct.Struct("<2f")
+_struct_2fB = struct.Struct("<2fB")
