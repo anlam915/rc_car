@@ -1,3 +1,3 @@
 uint32 angle
 float32 dist
-uint32 flag 
+uint32 obstacle_flag 

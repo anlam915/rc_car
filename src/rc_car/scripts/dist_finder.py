@@ -15,6 +15,9 @@ from numpy import inf
 from rc_car.msg import pid_input #<package><msg directory> import <msg type>
 from sensor_msgs.msg import LaserScan
 
+distance_offset = 41 #distance from front lidar sensor to front of car
+danger_distance = 20 #20cm away from from of car --> avoid
+
 desired_trajectory = .85
 velocity = 30
 prev_error = 0
@@ -38,10 +41,16 @@ def getRange(data,index):
 # Function: checkSector
 # Parameters: Sector to be examined (Left, Right, Straight)
 # Output: true or false (whether or not sector is blocked)
-def checkSector(sector):
+def checkSector(data, sector):
 	if(sector == "STRAIGHT"):
-
+		for i in range(0,15):
+			if(getRange(data, i) <= (danger_distance + distance_offset)):
+				return 1
+		for i in range(345, 360):
+			if(getRange(data, i) <= (danger_distance + distance_offset)):
+				return 1
 		return 0
+
 	if(sector == "LEFT"):
 		return 0
 	if(sector == "RIGHT"):
@@ -56,17 +65,7 @@ def callback(data):
 	# Check distances of two rays
 	a = getRange(data, theta + lidar_offset)
 	b = getRange(data, 0 + lidar_offset) # 0
-	
 
-	# Check if obstacle in front
-	front_dist = getRange(data, 0)
-	front_obstacle_flag = False
-	if(front_dist > .1 and front_dist < 1):
-		front_obstacle_flag = True
-		# rospy.loginfo("Obstacle detected")
-
-	# rospy.loginfo("Distance = %f", front_dist)
-	
 
 	#implement distance finding equations
 	swing = math.radians(theta)
@@ -89,11 +88,7 @@ def callback(data):
 	msg = pid_input()
 	msg.error = error
 	msg.vel = velocity
-<<<<<<< HEAD
-	msg.flag = checkSector(STRAIGHT)
-=======
-	msg.obstacle_flag = front_obstacle_flag
->>>>>>> eded1ba6bed8daf90ac003e68b298d1b5e82d125
+	msg.obstacle_flag = checkSector(data, STRAIGHT)
 	pub.publish(msg)
 
 if __name__ == '__main__':
