@@ -3,4 +3,6 @@
           VEL
           ERROR-VAL
           ERROR
+          OBSTACLE_FLAG-VAL
+          OBSTACLE_FLAG
 ))
