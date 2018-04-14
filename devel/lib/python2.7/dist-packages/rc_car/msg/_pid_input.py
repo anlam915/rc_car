@@ -7,14 +7,16 @@ import struct
 
 
 class pid_input(genpy.Message):
-  _md5sum = "2455c9230edc930265906132ca470811"
+  _md5sum = "84623ee5a6b9076f2f5764e660ccbc8b"
   _type = "rc_car/pid_input"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """float32 vel
 float32 error
-bool obstacle_flag"""
-  __slots__ = ['vel','error','obstacle_flag']
-  _slot_types = ['float32','float32','bool']
+bool frontBlocked
+bool leftBlocked
+bool rightBlocked"""
+  __slots__ = ['vel','error','frontBlocked','leftBlocked','rightBlocked']
+  _slot_types = ['float32','float32','bool','bool','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -24,7 +26,7 @@ bool obstacle_flag"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       vel,error,obstacle_flag
+       vel,error,frontBlocked,leftBlocked,rightBlocked
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -37,12 +39,18 @@ bool obstacle_flag"""
         self.vel = 0.
       if self.error is None:
         self.error = 0.
-      if self.obstacle_flag is None:
-        self.obstacle_flag = False
+      if self.frontBlocked is None:
+        self.frontBlocked = False
+      if self.leftBlocked is None:
+        self.leftBlocked = False
+      if self.rightBlocked is None:
+        self.rightBlocked = False
     else:
       self.vel = 0.
       self.error = 0.
-      self.obstacle_flag = False
+      self.frontBlocked = False
+      self.leftBlocked = False
+      self.rightBlocked = False
 
   def _get_types(self):
     """
@@ -57,7 +65,7 @@ bool obstacle_flag"""
     """
     try:
       _x = self
-      buff.write(_struct_2fB.pack(_x.vel, _x.error, _x.obstacle_flag))
+      buff.write(_struct_2f3B.pack(_x.vel, _x.error, _x.frontBlocked, _x.leftBlocked, _x.rightBlocked))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -70,9 +78,11 @@ bool obstacle_flag"""
       end = 0
       _x = self
       start = end
-      end += 9
-      (_x.vel, _x.error, _x.obstacle_flag,) = _struct_2fB.unpack(str[start:end])
-      self.obstacle_flag = bool(self.obstacle_flag)
+      end += 11
+      (_x.vel, _x.error, _x.frontBlocked, _x.leftBlocked, _x.rightBlocked,) = _struct_2f3B.unpack(str[start:end])
+      self.frontBlocked = bool(self.frontBlocked)
+      self.leftBlocked = bool(self.leftBlocked)
+      self.rightBlocked = bool(self.rightBlocked)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -86,7 +96,7 @@ bool obstacle_flag"""
     """
     try:
       _x = self
-      buff.write(_struct_2fB.pack(_x.vel, _x.error, _x.obstacle_flag))
+      buff.write(_struct_2f3B.pack(_x.vel, _x.error, _x.frontBlocked, _x.leftBlocked, _x.rightBlocked))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -100,12 +110,14 @@ bool obstacle_flag"""
       end = 0
       _x = self
       start = end
-      end += 9
-      (_x.vel, _x.error, _x.obstacle_flag,) = _struct_2fB.unpack(str[start:end])
-      self.obstacle_flag = bool(self.obstacle_flag)
+      end += 11
+      (_x.vel, _x.error, _x.frontBlocked, _x.leftBlocked, _x.rightBlocked,) = _struct_2f3B.unpack(str[start:end])
+      self.frontBlocked = bool(self.frontBlocked)
+      self.leftBlocked = bool(self.leftBlocked)
+      self.rightBlocked = bool(self.rightBlocked)
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_2fB = struct.Struct("<2fB")
+_struct_2f3B = struct.Struct("<2f3B")

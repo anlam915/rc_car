@@ -6,13 +6,25 @@ from numpy import inf
 from rc_car.msg import pid_input #<package><msg directory> import <msg type>
 from sensor_msgs.msg import LaserScan
 
-desired_trajectory = .85
+
+# Driving Parallel variables
+desired_trajectory = 1
 velocity = 30
 prev_error = 0
 theta = 25
 lidar_offset = 270 # Add this offset value when extracting range data from lidar message(aka when using getRange)
 
-pub = rospy.Publisher('error', pid_input, queue_size = 10)
+# Obstacle avoidance variables and constants
+MAX_DISTANCE = 5.0
+MIN_DISTANCE = .6
+
+frontBlocked = False
+leftBlocked = False
+rightBlocked = False
+
+
+
+pub = rospy.Publisher('error', pid_input, queue_size = 1)
 
 # Function: getRange
 # Parameters: 1) the lidar LaserScan msg instance 2) desired angle to find distance + offset if necessary
@@ -22,31 +34,57 @@ def getRange(data,index):
 # Get distance at theta
 	distance = data.ranges[index]
 	if(distance == float("inf")):
-		return 5
+		return MAX_DISTANCE
 	else:
 		return distance
 
+def checkFront(msg):
+	for i in range(0,15):
+		current = getRange(msg, i)
+		if (current > 0 and current < MIN_DISTANCE):
+			# rospy.loginfo("Angle: %i Distance = %f", i, current)
+			return True
+	for i in range(345, 359):
+		current = getRange(msg, i)
+		if (current > 0 and current < MIN_DISTANCE):
+			# rospy.loginfo("Angle: %i Distance = %f", i, current)
+			return True
+	return False
 
-# function: callback
+def checkLeft(msg):
+	for i in range(16, 45):
+		current = getRange(msg, i)
+		if (current > 0 and current < MIN_DISTANCE):
+			return True
+	return False
+
+def checkRight(msg):
+	for i in range(315, 344):
+		current = getRange(msg, i)
+		if (current > 0 and current < MIN_DISTANCE):
+			return True
+	return False
+
+def sweep(msg):
+	global frontBlocked
+	global leftBlocked
+	global rightBlocked
+	frontBlocked = checkFront(msg)
+	leftBlocked = checkLeft(msg)
+	rightBlocked = checkRight(msg)
+
+# Function: callback
 # performs getRange at angle 0 and theta to calculate error
 def callback(data):
+	global frontBlocked
+	global leftBlocked
+	global rightBlocked
 
-	# Check distances of two rays
+
+	# Distance calculations:
 	a = getRange(data, theta + lidar_offset)
 	b = getRange(data, 0 + lidar_offset) # 0
-	
 
-	# Check if obstacle in front
-	front_dist = getRange(data, 0)
-	front_obstacle_flag = False
-	if(front_dist > .1 and front_dist < 1):
-		front_obstacle_flag = True
-		# rospy.loginfo("Obstacle detected")
-
-	# rospy.loginfo("Distance = %f", front_dist)
-	
-
-	#implement distance finding equations
 	swing = math.radians(theta)
 	alpha = math.atan((a * math.cos(swing) - b) / (a * math.sin(swing)))
 	AB = b * math.cos(alpha)
@@ -58,16 +96,18 @@ def callback(data):
 	# rospy.loginfo("Distance from wall = %f", AB)
 	# rospy.loginfo("Error = %f", error)
 
+	# (2) Get and set values for obstacle detection flags
+	sweep(data)
 
-	#check lenght of ranges array
-	# print len(data.ranges)
-
-
-	# store calculated values into a message and publish
+	# Store range data into message and publish
 	msg = pid_input()
+	msg.frontBlocked = frontBlocked
+	msg.leftBlocked = leftBlocked
+	msg.rightBlocked = rightBlocked	
+
+
 	msg.error = error
 	msg.vel = velocity
-	msg.obstacle_flag = front_obstacle_flag
 	pub.publish(msg)
 
 if __name__ == '__main__':
