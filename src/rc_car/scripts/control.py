@@ -11,8 +11,8 @@ FORWARD = 103
 NEUTRAL = 90
 REVERSE = 0
 
-kp = 14 * 2 
-# kd = 0.09 * 10
+kp = 14 * 2.5
+kd = 0.09 * 2.25
 kd = 0
 servo_offset = 0.0
 prev_error = 0.0 
@@ -56,14 +56,14 @@ def control(data):
 		avoidance_step = 2
 		msg.velocity = FORWARD;
 		msg.angle = STEER_RIGHT
-		rospy.loginfo("Obstacle ahead")
+		# rospy.loginfo("Obstacle ahead")
 		pub.publish(msg)
 	elif(avoidance_step == 2):
 		if(not data.leftBlocked):
 			avoidance_step = 1
 
 		else:
-			rospy.loginfo("Obstacle to left")
+			# rospy.loginfo("Obstacle to left")
 			msg.velocity = FORWARD
 			msg.angle = STEER_STRAIGHT
 			pub.publish(msg)

@@ -8,7 +8,7 @@ from sensor_msgs.msg import LaserScan
 
 
 # Driving Parallel variables
-desired_trajectory = 1
+desired_trajectory = 1.1
 velocity = 30
 prev_error = 0
 theta = 25
@@ -16,7 +16,7 @@ lidar_offset = 270 # Add this offset value when extracting range data from lidar
 
 # Obstacle avoidance variables and constants
 MAX_DISTANCE = 5.0
-MIN_DISTANCE = .6
+MIN_DISTANCE = .9
 
 frontBlocked = False
 leftBlocked = False

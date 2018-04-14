@@ -14,7 +14,7 @@ REVERSE = 0
 
 vel_input = 100.0
 MAX_DISTANCE = 5.0
-MIN_DISTANCE = .6
+MIN_DISTANCE = .8
 
 frontBlocked = False
 leftBlocked = False
