@@ -129,6 +129,8 @@ IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   INCLUDE("/home/andyklam/catkin_ws/build/rosserial/rosserial_server/cmake_install.cmake")
   INCLUDE("/home/andyklam/catkin_ws/build/rosserial/rosserial_embeddedlinux/cmake_install.cmake")
   INCLUDE("/home/andyklam/catkin_ws/build/rosserial/rosserial_windows/cmake_install.cmake")
+  INCLUDE("/home/andyklam/catkin_ws/build/learning_tf/cmake_install.cmake")
+  INCLUDE("/home/andyklam/catkin_ws/build/learning_tf2/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
