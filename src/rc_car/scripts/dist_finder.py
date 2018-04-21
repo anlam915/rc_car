@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+'''-----------------------------------DISTANCE FINDER NODE-------------------------------------------------------------------
+	Tasks:
+		(1) Read distance given by RP Lidar and calculate how far away from wall (desired distance)
+		(2) Given the distance, determine whether or not there is an obstacle in front (front sector)
+		(3) If there is no obstacle then clear flag to signify that vehicle should continue its normal path (parallel to wall)
+			else set the flag to navigate around an obstacle
+------------------------------------------------------------------------------------------------------------------------------
+'''
+
 import rospy
 import math
 from numpy import inf
@@ -7,8 +16,15 @@ from rc_car.msg import pid_input #<package><msg directory> import <msg type>
 from sensor_msgs.msg import LaserScan
 
 
+distance_offset = 41 #distance from front lidar sensor to front of car
+danger_distance = 20 #20cm away from from of car --> avoid
+
+desired_trajectory = .85
+
+
 # Driving Parallel variables
 desired_trajectory = 1.1
+
 velocity = 30
 prev_error = 0
 theta = 25
@@ -73,6 +89,7 @@ def sweep(msg):
 	leftBlocked = checkLeft(msg)
 	rightBlocked = checkRight(msg)
 
+
 # Function: callback
 # performs getRange at angle 0 and theta to calculate error
 def callback(data):
@@ -85,16 +102,13 @@ def callback(data):
 	a = getRange(data, theta + lidar_offset)
 	b = getRange(data, 0 + lidar_offset) # 0
 
+
 	swing = math.radians(theta)
 	alpha = math.atan((a * math.cos(swing) - b) / (a * math.sin(swing)))
 	AB = b * math.cos(alpha)
 
 	# rospy.loginfo("Time: %f,  Distance from wall %f", rospy.get_time(), AB)
 	error = desired_trajectory - AB
-	# rospy.loginfo("A = %f B = %f", a , b)
-	# rospy.loginfo("Alpha = %f", math.degrees(alpha))
-	# rospy.loginfo("Distance from wall = %f", AB)
-	# rospy.loginfo("Error = %f", error)
 
 	# (2) Get and set values for obstacle detection flags
 	sweep(data)
@@ -104,10 +118,11 @@ def callback(data):
 	msg.frontBlocked = frontBlocked
 	msg.leftBlocked = leftBlocked
 	msg.rightBlocked = rightBlocked	
-
-
 	msg.error = error
 	msg.vel = velocity
+
+	msg.alpha = alpha #used to determine the angle the car is facing
+
 	pub.publish(msg)
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
+from functools import partial
 from rc_car.msg import drive_param
 from rc_car.msg import pid_input
 
@@ -20,9 +21,38 @@ integral = 0.0
 vel_input = NEUTRAL 
 # vel_input = FORWARD
 
+
 avoidance_step = 1
 
 pub = rospy.Publisher('drive_parameters', drive_param, queue_size=1)
+
+def step_one_avoidance(data):
+	if(data.alpha == 0):
+		if(data.leftBlocked):
+			angle = STEER_RIGHT
+		if(data.rightBlocked):
+			angle = STEER_RIGHT
+		else:
+			angle = STEER_RIGHT
+	elif(data.alpha < 0):
+		if(data.leftBlocked):
+			angle = STEER_RIGHT
+		elif(data.rightBlocked):
+			angle = STEER_LEFT
+		else:
+			angle = STEER_RIGHT
+	elif(data.alpha > 0):
+		if(data.leftBlocked):
+			angle = STEER_RIGHT
+		elif(data.rightBlocked):
+			angle = STEER_LEFT
+		else:
+			angle = STEER_LEFT
+	return angle
+
+
+
+
 
 def control(data):
 	global prev_error
@@ -30,21 +60,15 @@ def control(data):
 	global kp
 	global kd
 	global avoidance_step
+	recent_turn_angle = STEER_STRAIGHT
 	msg = drive_param();
 
-	'''
-	PSUEDOCODE:
-	if flag:
-		turnRight
-		step = 2
-	elif step == 2:
-		goStraight
-		if(leftClear):
-			step == 3
+	msg.velocity = FORWARD
+	
 
-	START for Mode1/2 code
 
-	'''
+
+
 	# MODE 1: Obstacle avoidance #
 
 	# 1. Scale the error
@@ -53,23 +77,31 @@ def control(data):
 
 	if(data.frontBlocked):
 	#obstacle avoidance algoithm
+		#vehicle is facing straight
+
 		avoidance_step = 2
-		msg.velocity = FORWARD;
-		msg.angle = STEER_RIGHT
+		msg.angle = step_one_avoidance()
+		recent_turn_angle = msg.angle 
 		# rospy.loginfo("Obstacle ahead")
 		pub.publish(msg)
-	elif(avoidance_step == 2):
-		if(not data.leftBlocked):
-			avoidance_step = 1
 
-		else:
-			# rospy.loginfo("Obstacle to left")
-			msg.velocity = FORWARD
+	elif(avoidance_step == 2):
+		if(recent_turn_angle == STEER_RIGHT && data.leftBlocked):
 			msg.angle = STEER_STRAIGHT
 			pub.publish(msg)
+		elif(recent_turn_angle == STEER_LEFT && data.rightBlocked):
+			if(data.rightBlocked):
+			msg.angle = STEER_STRAIGHT
+			pub.publish(msg)
+		else:
+			# rospy.loginfo("Obstacle to left")
+			avoidance_step = 1
+
+
+
 	# # MODE 2: Drive parallel #
 	else: 	
-		# rospy.loginfo("Clear")
+
  		angle = kp * data.error + kd * (prev_error - data.error)
 
  		if angle > 90:
@@ -81,33 +113,16 @@ def control(data):
 		msg.angle = 90 - angle
 		pub.publish(msg)
 
-	'''
-	END for Mode1/Mode2 Code
-	'''
-	# angle = kp * data.error + kd * (data.error - prev_error)
 
-	# if angle > 90:
-	# 	angle = 90
-	# elif angle < -90:
-	# 	angle = -90
-  	
- #  	msg.velocity = vel_input	
-	# msg.angle = 90 - angle
-	# pub.publish(msg)
 
  	prev_error = data.error # Store error for next iteration
 	
-		# rospy.loginfo("Steering angle = %f", angle)
-		# rospy.loginfo("Velocity = %f", vel_input)
+
 		
 if __name__ == '__main__':
-	# global kp
-	# global kd
-	# global vel_input
+
 	print("Listening to error for PID")
-	# kp = input("Enter Kp Value: ")
-	# kd = input("Enter Kd Value: ")
-	# vel_input = input("Enter Velocity: ")
+
 	rospy.init_node('pid_controller', anonymous=True)
 	rospy.Subscriber("error", pid_input, control)
 	rospy.spin()
