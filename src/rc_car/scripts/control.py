@@ -26,6 +26,31 @@ avoidance_step = 1
 
 pub = rospy.Publisher('drive_parameters', drive_param, queue_size=1)
 
+def step_one_avoidance(data):
+	if(data.alpha == 0):
+		if(data.leftBlocked):
+			angle = STEER_RIGHT
+		if(data.rightBlocked):
+			angle = STEER_RIGHT
+		else:
+			angle = STEER_RIGHT
+	elif(data.alpha < 0):
+		if(data.leftBlocked):
+			angle = STEER_RIGHT
+		elif(data.rightBlocked):
+			angle = STEER_LEFT
+		else:
+			angle = STEER_RIGHT
+	elif(data.alpha > 0):
+		if(data.leftBlocked):
+			angle = STEER_RIGHT
+		elif(data.rightBlocked):
+			angle = STEER_LEFT
+		else:
+			angle = STEER_LEFT
+	return angle
+
+
 
 
 
@@ -35,42 +60,15 @@ def control(data):
 	global kp
 	global kd
 	global avoidance_step
-	recent_turn_angle = FORWARD
+	recent_turn_angle = STEER_STRAIGHT
 	msg = drive_param();
 
 	msg.velocity = FORWARD
 	
 
-	# if(data.front_blocked):
-	# 	function = front
-	# 	avoidance_step = 2
-	# elif(step == 2):
-	# 	if(!left_block):
-	# 		avoiddance_step == 1
-	# 	else:
-	# 		function = left
-	# else:
-	# 	function = wall
 
- # 	angle = kp * data.error + kd * (data.error - prev_error)
- # 	if(angle > 90):
- # 		angle = 90
- # 	elif(angle < -90):
- # 		angle = -90
 
-	'''
-	PSUEDOCODE:
-	if flag:
-		turnRight
-		step = 2
-	elif step == 2:
-		goStraight
-		if(leftClear):
-			step == 3
 
-	START for Mode1/2 code
-
-	'''
 	# MODE 1: Obstacle avoidance #
 
 	# 1. Scale the error
@@ -80,49 +78,26 @@ def control(data):
 	if(data.frontBlocked):
 	#obstacle avoidance algoithm
 		#vehicle is facing straight
-		if(data.alpha == 0): 
-			if(data.leftBlocked):
-				msg.angle = STEER_RIGHT
-			elif(data.rightBlocked):
-				msg.angle = STEER_LEFT
-			else:
-				msg.angle = STEER_RIGHT
-
-		#vehicle is tilted toward the left
-		if(data.alpha < 0): 
-			if(data.leftBlocked):
-				msg.angle = STEER_RIGHT
-			elif(data.rightBlocked):
-				msg.angle = STEER_LEFT
-			else:
-				msg.angle = STEER_RIGHT
-
-		#vehicle is tilted toward the right
-		if(data.alpha > 0):
-			if(data.leftBlocked):
-				msg.angle = STEER_RIGHT
-			elif(data.rightBlocked):
-				msg.angle = STEER_LEFT
-			else:
-				msg.angle = STEER_LEFT
 
 		avoidance_step = 2
+		msg.angle = step_one_avoidance()
 		recent_turn_angle = msg.angle 
 		# rospy.loginfo("Obstacle ahead")
 		pub.publish(msg)
 
 	elif(avoidance_step == 2):
-		if(recent_turn_angle == STEER_RIGHT):
-			if(data.leftBlocked):
-				msg.angle = STEER_STRAIGHT
-		elif(recent_turn_angle == STEER_LEFT):
+		if(recent_turn_angle == STEER_RIGHT && data.leftBlocked):
+			msg.angle = STEER_STRAIGHT
+			pub.publish(msg)
+		elif(recent_turn_angle == STEER_LEFT && data.rightBlocked):
 			if(data.rightBlocked):
-				msg.angle = STEER_STRAIGHT
+			msg.angle = STEER_STRAIGHT
+			pub.publish(msg)
 		else:
 			# rospy.loginfo("Obstacle to left")
 			avoidance_step = 1
 
-		pub.publish(msg)
+
 
 	# # MODE 2: Drive parallel #
 	else: 	
@@ -143,9 +118,6 @@ def control(data):
  	prev_error = data.error # Store error for next iteration
 	
 
-
- # 	Alpha_Dict = {"zero": }
-	# Function_Dict = {"front": partial(front_funct, msg), "left": partial(left_funct,msg), "right": partial(right_funct,msg), "wall": partial(wall,msg,angle,vel_input)}[function]()
 		
 if __name__ == '__main__':
 
