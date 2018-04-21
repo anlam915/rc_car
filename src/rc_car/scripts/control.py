@@ -65,31 +65,25 @@ def control(data):
 
 	msg.velocity = FORWARD
 	
-
-
-
-
 	# MODE 1: Obstacle avoidance #
 
-	# 1. Scale the error
-	# 2. Apply the PID equation on error
-	# 3. Make sure the error is within bounds
+
 
 	if(data.frontBlocked):
-	#obstacle avoidance algoithm
+	#obstacle avoidance algorithm
 		#vehicle is facing straight
 
 		avoidance_step = 2
-		msg.angle = step_one_avoidance()
+		msg.angle = step_one_avoidance(data)
 		recent_turn_angle = msg.angle 
 		# rospy.loginfo("Obstacle ahead")
 		pub.publish(msg)
 
 	elif(avoidance_step == 2):
-		if(recent_turn_angle == STEER_RIGHT && data.leftBlocked):
+		if(recent_turn_angle == STEER_RIGHT and data.leftBlocked):
 			msg.angle = STEER_STRAIGHT
 			pub.publish(msg)
-		elif(recent_turn_angle == STEER_LEFT && data.rightBlocked):
+		elif(recent_turn_angle == STEER_LEFT and data.rightBlocked):
 			if(data.rightBlocked):
 			msg.angle = STEER_STRAIGHT
 			pub.publish(msg)
@@ -99,7 +93,10 @@ def control(data):
 
 
 
-	# # MODE 2: Drive parallel #
+	# MODE 2: Drive parallel #
+	# 1. Scale the error
+	# 2. Apply the PID equation on error
+	# 3. Make sure the error is within bounds
 	else: 	
 
  		angle = kp * data.error + kd * (prev_error - data.error)
@@ -113,12 +110,8 @@ def control(data):
 		msg.angle = 90 - angle
 		pub.publish(msg)
 
-
-
  	prev_error = data.error # Store error for next iteration
 	
-
-		
 if __name__ == '__main__':
 
 	print("Listening to error for PID")
