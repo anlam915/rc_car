@@ -26,12 +26,16 @@ struct pid_input_
   pid_input_()
     : vel(0.0)
     , error(0.0)
-    , obstacle_flag(false)  {
+    , frontBlocked(false)
+    , leftBlocked(false)
+    , rightBlocked(false)  {
     }
   pid_input_(const ContainerAllocator& _alloc)
     : vel(0.0)
     , error(0.0)
-    , obstacle_flag(false)  {
+    , frontBlocked(false)
+    , leftBlocked(false)
+    , rightBlocked(false)  {
   (void)_alloc;
     }
 
@@ -43,8 +47,14 @@ struct pid_input_
    typedef float _error_type;
   _error_type error;
 
-   typedef uint8_t _obstacle_flag_type;
-  _obstacle_flag_type obstacle_flag;
+   typedef uint8_t _frontBlocked_type;
+  _frontBlocked_type frontBlocked;
+
+   typedef uint8_t _leftBlocked_type;
+  _leftBlocked_type leftBlocked;
+
+   typedef uint8_t _rightBlocked_type;
+  _rightBlocked_type rightBlocked;
 
 
 
@@ -123,12 +133,12 @@ struct MD5Sum< ::rc_car::pid_input_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "2455c9230edc930265906132ca470811";
+    return "84623ee5a6b9076f2f5764e660ccbc8b";
   }
 
   static const char* value(const ::rc_car::pid_input_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x2455c9230edc9302ULL;
-  static const uint64_t static_value2 = 0x65906132ca470811ULL;
+  static const uint64_t static_value1 = 0x84623ee5a6b9076fULL;
+  static const uint64_t static_value2 = 0x2f5764e660ccbc8bULL;
 };
 
 template<class ContainerAllocator>
@@ -149,7 +159,9 @@ struct Definition< ::rc_car::pid_input_<ContainerAllocator> >
   {
     return "float32 vel\n\
 float32 error\n\
-bool obstacle_flag\n\
+bool frontBlocked\n\
+bool leftBlocked\n\
+bool rightBlocked\n\
 ";
   }
 
@@ -170,7 +182,9 @@ namespace serialization
     {
       stream.next(m.vel);
       stream.next(m.error);
-      stream.next(m.obstacle_flag);
+      stream.next(m.frontBlocked);
+      stream.next(m.leftBlocked);
+      stream.next(m.rightBlocked);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -193,8 +207,12 @@ struct Printer< ::rc_car::pid_input_<ContainerAllocator> >
     Printer<float>::stream(s, indent + "  ", v.vel);
     s << indent << "error: ";
     Printer<float>::stream(s, indent + "  ", v.error);
-    s << indent << "obstacle_flag: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.obstacle_flag);
+    s << indent << "frontBlocked: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.frontBlocked);
+    s << indent << "leftBlocked: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.leftBlocked);
+    s << indent << "rightBlocked: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.rightBlocked);
   }
 };
 

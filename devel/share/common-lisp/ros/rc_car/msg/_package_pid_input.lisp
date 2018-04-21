@@ -3,6 +3,10 @@
           VEL
           ERROR-VAL
           ERROR
-          OBSTACLE_FLAG-VAL
-          OBSTACLE_FLAG
+          FRONTBLOCKED-VAL
+          FRONTBLOCKED
+          LEFTBLOCKED-VAL
+          LEFTBLOCKED
+          RIGHTBLOCKED-VAL
+          RIGHTBLOCKED
 ))
