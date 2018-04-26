@@ -1,0 +1,12 @@
+digraph G {
+"world" -> "map"[label="Broadcaster: /static_tf0\nAverage rate: 10.109 Hz\nMost recent transform: 1524707550.685 ( -0.092 sec old)\nBuffer length: 4.847 sec\n"];
+"base_frame" -> "laser"[label="Broadcaster: /base_frame_to_laser\nAverage rate: 10.120 Hz\nMost recent transform: 1524707550.596 ( -0.003 sec old)\nBuffer length: 4.743 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1524707550.593"[ shape=plaintext ] ;
+ }->"world";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1524707550.593"[ shape=plaintext ] ;
+ }->"base_frame";
+}

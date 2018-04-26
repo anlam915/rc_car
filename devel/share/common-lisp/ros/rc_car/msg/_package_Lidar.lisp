@@ -3,4 +3,6 @@
           ANGLE
           DIST-VAL
           DIST
+          OBSTACLE_FLAG-VAL
+          OBSTACLE_FLAG
 ))

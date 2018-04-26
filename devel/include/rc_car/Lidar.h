@@ -25,11 +25,13 @@ struct Lidar_
 
   Lidar_()
     : angle(0)
-    , dist(0.0)  {
+    , dist(0.0)
+    , obstacle_flag(0)  {
     }
   Lidar_(const ContainerAllocator& _alloc)
     : angle(0)
-    , dist(0.0)  {
+    , dist(0.0)
+    , obstacle_flag(0)  {
   (void)_alloc;
     }
 
@@ -40,6 +42,9 @@ struct Lidar_
 
    typedef float _dist_type;
   _dist_type dist;
+
+   typedef uint32_t _obstacle_flag_type;
+  _obstacle_flag_type obstacle_flag;
 
 
 
@@ -118,12 +123,12 @@ struct MD5Sum< ::rc_car::Lidar_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "6bbde98b68f84d3f9a872b55361580ba";
+    return "dc9ec0058467f04029014e27cd00d521";
   }
 
   static const char* value(const ::rc_car::Lidar_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x6bbde98b68f84d3fULL;
-  static const uint64_t static_value2 = 0x9a872b55361580baULL;
+  static const uint64_t static_value1 = 0xdc9ec0058467f040ULL;
+  static const uint64_t static_value2 = 0x29014e27cd00d521ULL;
 };
 
 template<class ContainerAllocator>
@@ -144,6 +149,7 @@ struct Definition< ::rc_car::Lidar_<ContainerAllocator> >
   {
     return "uint32 angle\n\
 float32 dist\n\
+uint32 obstacle_flag \n\
 ";
   }
 
@@ -164,6 +170,7 @@ namespace serialization
     {
       stream.next(m.angle);
       stream.next(m.dist);
+      stream.next(m.obstacle_flag);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -186,6 +193,8 @@ struct Printer< ::rc_car::Lidar_<ContainerAllocator> >
     Printer<uint32_t>::stream(s, indent + "  ", v.angle);
     s << indent << "dist: ";
     Printer<float>::stream(s, indent + "  ", v.dist);
+    s << indent << "obstacle_flag: ";
+    Printer<uint32_t>::stream(s, indent + "  ", v.obstacle_flag);
   }
 };
 

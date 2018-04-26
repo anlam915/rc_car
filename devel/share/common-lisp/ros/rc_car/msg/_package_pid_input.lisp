@@ -3,6 +3,8 @@
           VEL
           ERROR-VAL
           ERROR
+          ALPHA-VAL
+          ALPHA
           FRONTBLOCKED-VAL
           FRONTBLOCKED
           LEFTBLOCKED-VAL

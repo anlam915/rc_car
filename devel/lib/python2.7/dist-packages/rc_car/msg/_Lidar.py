@@ -7,14 +7,15 @@ import struct
 
 
 class Lidar(genpy.Message):
-  _md5sum = "6bbde98b68f84d3f9a872b55361580ba"
+  _md5sum = "dc9ec0058467f04029014e27cd00d521"
   _type = "rc_car/Lidar"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """uint32 angle
 float32 dist
+uint32 obstacle_flag 
 """
-  __slots__ = ['angle','dist']
-  _slot_types = ['uint32','float32']
+  __slots__ = ['angle','dist','obstacle_flag']
+  _slot_types = ['uint32','float32','uint32']
 
   def __init__(self, *args, **kwds):
     """
@@ -24,7 +25,7 @@ float32 dist
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       angle,dist
+       angle,dist,obstacle_flag
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -37,9 +38,12 @@ float32 dist
         self.angle = 0
       if self.dist is None:
         self.dist = 0.
+      if self.obstacle_flag is None:
+        self.obstacle_flag = 0
     else:
       self.angle = 0
       self.dist = 0.
+      self.obstacle_flag = 0
 
   def _get_types(self):
     """
@@ -54,7 +58,7 @@ float32 dist
     """
     try:
       _x = self
-      buff.write(_struct_If.pack(_x.angle, _x.dist))
+      buff.write(_struct_IfI.pack(_x.angle, _x.dist, _x.obstacle_flag))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -67,8 +71,8 @@ float32 dist
       end = 0
       _x = self
       start = end
-      end += 8
-      (_x.angle, _x.dist,) = _struct_If.unpack(str[start:end])
+      end += 12
+      (_x.angle, _x.dist, _x.obstacle_flag,) = _struct_IfI.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -82,7 +86,7 @@ float32 dist
     """
     try:
       _x = self
-      buff.write(_struct_If.pack(_x.angle, _x.dist))
+      buff.write(_struct_IfI.pack(_x.angle, _x.dist, _x.obstacle_flag))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -96,11 +100,11 @@ float32 dist
       end = 0
       _x = self
       start = end
-      end += 8
-      (_x.angle, _x.dist,) = _struct_If.unpack(str[start:end])
+      end += 12
+      (_x.angle, _x.dist, _x.obstacle_flag,) = _struct_IfI.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_If = struct.Struct("<If")
+_struct_IfI = struct.Struct("<IfI")
