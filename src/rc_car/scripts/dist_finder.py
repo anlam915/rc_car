@@ -19,11 +19,9 @@ from sensor_msgs.msg import LaserScan
 distance_offset = 41 #distance from front lidar sensor to front of car
 danger_distance = 20 #20cm away from from of car --> avoid
 
-desired_trajectory = .85
-
 
 # Driving Parallel variables
-desired_trajectory = 1.1
+desired_trajectory = 1.0
 
 velocity = 30
 prev_error = 0
@@ -32,7 +30,7 @@ lidar_offset = 270 # Add this offset value when extracting range data from lidar
 
 # Obstacle avoidance variables and constants
 MAX_DISTANCE = 5.0
-MIN_DISTANCE = .9
+MIN_DISTANCE = 1.4
 
 frontBlocked = False
 leftBlocked = False
@@ -108,6 +106,7 @@ def callback(data):
 	AB = b * math.cos(alpha)
 
 	# rospy.loginfo("Time: %f,  Distance from wall %f", rospy.get_time(), AB)
+	# rospy.loginfo("Alpha: %f", alpha)
 	error = desired_trajectory - AB
 
 	# (2) Get and set values for obstacle detection flags

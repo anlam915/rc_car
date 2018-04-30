@@ -16,7 +16,12 @@
     :reader dist
     :initarg :dist
     :type cl:float
-    :initform 0.0))
+    :initform 0.0)
+   (obstacle_flag
+    :reader obstacle_flag
+    :initarg :obstacle_flag
+    :type cl:integer
+    :initform 0))
 )
 
 (cl:defclass Lidar (<Lidar>)
@@ -36,6 +41,11 @@
 (cl:defmethod dist-val ((m <Lidar>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader rc_car-msg:dist-val is deprecated.  Use rc_car-msg:dist instead.")
   (dist m))
+
+(cl:ensure-generic-function 'obstacle_flag-val :lambda-list '(m))
+(cl:defmethod obstacle_flag-val ((m <Lidar>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader rc_car-msg:obstacle_flag-val is deprecated.  Use rc_car-msg:obstacle_flag instead.")
+  (obstacle_flag m))
 (cl:defmethod roslisp-msg-protocol:serialize ((msg <Lidar>) ostream)
   "Serializes a message object of type '<Lidar>"
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:slot-value msg 'angle)) ostream)
@@ -47,6 +57,10 @@
     (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:slot-value msg 'obstacle_flag)) ostream)
+  (cl:write-byte (cl:ldb (cl:byte 8 8) (cl:slot-value msg 'obstacle_flag)) ostream)
+  (cl:write-byte (cl:ldb (cl:byte 8 16) (cl:slot-value msg 'obstacle_flag)) ostream)
+  (cl:write-byte (cl:ldb (cl:byte 8 24) (cl:slot-value msg 'obstacle_flag)) ostream)
 )
 (cl:defmethod roslisp-msg-protocol:deserialize ((msg <Lidar>) istream)
   "Deserializes a message object of type '<Lidar>"
@@ -60,6 +74,10 @@
       (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'dist) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:setf (cl:ldb (cl:byte 8 0) (cl:slot-value msg 'obstacle_flag)) (cl:read-byte istream))
+    (cl:setf (cl:ldb (cl:byte 8 8) (cl:slot-value msg 'obstacle_flag)) (cl:read-byte istream))
+    (cl:setf (cl:ldb (cl:byte 8 16) (cl:slot-value msg 'obstacle_flag)) (cl:read-byte istream))
+    (cl:setf (cl:ldb (cl:byte 8 24) (cl:slot-value msg 'obstacle_flag)) (cl:read-byte istream))
   msg
 )
 (cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<Lidar>)))
@@ -70,18 +88,19 @@
   "rc_car/Lidar")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<Lidar>)))
   "Returns md5sum for a message object of type '<Lidar>"
-  "6bbde98b68f84d3f9a872b55361580ba")
+  "dc9ec0058467f04029014e27cd00d521")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'Lidar)))
   "Returns md5sum for a message object of type 'Lidar"
-  "6bbde98b68f84d3f9a872b55361580ba")
+  "dc9ec0058467f04029014e27cd00d521")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<Lidar>)))
   "Returns full string definition for message of type '<Lidar>"
-  (cl:format cl:nil "uint32 angle~%float32 dist~%~%~%"))
+  (cl:format cl:nil "uint32 angle~%float32 dist~%uint32 obstacle_flag ~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'Lidar)))
   "Returns full string definition for message of type 'Lidar"
-  (cl:format cl:nil "uint32 angle~%float32 dist~%~%~%"))
+  (cl:format cl:nil "uint32 angle~%float32 dist~%uint32 obstacle_flag ~%~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <Lidar>))
   (cl:+ 0
+     4
      4
      4
 ))
@@ -90,4 +109,5 @@
   (cl:list 'Lidar
     (cl:cons ':angle (angle msg))
     (cl:cons ':dist (dist msg))
+    (cl:cons ':obstacle_flag (obstacle_flag msg))
 ))

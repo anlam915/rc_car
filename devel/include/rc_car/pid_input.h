@@ -26,6 +26,7 @@ struct pid_input_
   pid_input_()
     : vel(0.0)
     , error(0.0)
+    , alpha(0.0)
     , frontBlocked(false)
     , leftBlocked(false)
     , rightBlocked(false)  {
@@ -33,6 +34,7 @@ struct pid_input_
   pid_input_(const ContainerAllocator& _alloc)
     : vel(0.0)
     , error(0.0)
+    , alpha(0.0)
     , frontBlocked(false)
     , leftBlocked(false)
     , rightBlocked(false)  {
@@ -46,6 +48,9 @@ struct pid_input_
 
    typedef float _error_type;
   _error_type error;
+
+   typedef float _alpha_type;
+  _alpha_type alpha;
 
    typedef uint8_t _frontBlocked_type;
   _frontBlocked_type frontBlocked;
@@ -133,12 +138,12 @@ struct MD5Sum< ::rc_car::pid_input_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "84623ee5a6b9076f2f5764e660ccbc8b";
+    return "c00c80f75c7f8370b2b959b7435e5d0a";
   }
 
   static const char* value(const ::rc_car::pid_input_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x84623ee5a6b9076fULL;
-  static const uint64_t static_value2 = 0x2f5764e660ccbc8bULL;
+  static const uint64_t static_value1 = 0xc00c80f75c7f8370ULL;
+  static const uint64_t static_value2 = 0xb2b959b7435e5d0aULL;
 };
 
 template<class ContainerAllocator>
@@ -159,6 +164,7 @@ struct Definition< ::rc_car::pid_input_<ContainerAllocator> >
   {
     return "float32 vel\n\
 float32 error\n\
+float32 alpha\n\
 bool frontBlocked\n\
 bool leftBlocked\n\
 bool rightBlocked\n\
@@ -182,6 +188,7 @@ namespace serialization
     {
       stream.next(m.vel);
       stream.next(m.error);
+      stream.next(m.alpha);
       stream.next(m.frontBlocked);
       stream.next(m.leftBlocked);
       stream.next(m.rightBlocked);
@@ -207,6 +214,8 @@ struct Printer< ::rc_car::pid_input_<ContainerAllocator> >
     Printer<float>::stream(s, indent + "  ", v.vel);
     s << indent << "error: ";
     Printer<float>::stream(s, indent + "  ", v.error);
+    s << indent << "alpha: ";
+    Printer<float>::stream(s, indent + "  ", v.alpha);
     s << indent << "frontBlocked: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.frontBlocked);
     s << indent << "leftBlocked: ";

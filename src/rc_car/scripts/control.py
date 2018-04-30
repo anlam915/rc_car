@@ -8,7 +8,7 @@ from rc_car.msg import pid_input
 STEER_RIGHT = 180
 STEER_LEFT = 0
 STEER_STRAIGHT = 90
-FORWARD = 103
+FORWARD = 102
 NEUTRAL = 90
 REVERSE = 0
 
@@ -34,14 +34,14 @@ def step_one_avoidance(data):
 			angle = STEER_RIGHT
 		else:
 			angle = STEER_RIGHT
-	elif(data.alpha < 0):
+	elif(data.alpha > 0):
 		if(data.leftBlocked):
 			angle = STEER_RIGHT
 		elif(data.rightBlocked):
 			angle = STEER_LEFT
 		else:
 			angle = STEER_RIGHT
-	elif(data.alpha > 0):
+	elif(data.alpha < 0):
 		if(data.leftBlocked):
 			angle = STEER_RIGHT
 		elif(data.rightBlocked):
@@ -70,6 +70,7 @@ def control(data):
 
 
 	if(data.frontBlocked):
+		rospy.loginfo("Obstacle step 1")
 	#obstacle avoidance algorithm
 		#vehicle is facing straight
 
@@ -80,15 +81,16 @@ def control(data):
 		pub.publish(msg)
 
 	elif(avoidance_step == 2):
+		rospy.loginfo("Obstacle step 2")
 		if(recent_turn_angle == STEER_RIGHT and data.leftBlocked):
 			msg.angle = STEER_STRAIGHT
 			pub.publish(msg)
 		elif(recent_turn_angle == STEER_LEFT and data.rightBlocked):
 			if(data.rightBlocked):
-			msg.angle = STEER_STRAIGHT
-			pub.publish(msg)
+				msg.angle = STEER_STRAIGHT
+				pub.publish(msg)
 		else:
-			# rospy.loginfo("Obstacle to left")
+			rospy.loginfo("Obstacle avoidance EXIT")
 			avoidance_step = 1
 
 

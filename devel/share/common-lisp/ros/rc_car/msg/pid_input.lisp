@@ -17,6 +17,11 @@
     :initarg :error
     :type cl:float
     :initform 0.0)
+   (alpha
+    :reader alpha
+    :initarg :alpha
+    :type cl:float
+    :initform 0.0)
    (frontBlocked
     :reader frontBlocked
     :initarg :frontBlocked
@@ -52,6 +57,11 @@
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader rc_car-msg:error-val is deprecated.  Use rc_car-msg:error instead.")
   (error m))
 
+(cl:ensure-generic-function 'alpha-val :lambda-list '(m))
+(cl:defmethod alpha-val ((m <pid_input>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader rc_car-msg:alpha-val is deprecated.  Use rc_car-msg:alpha instead.")
+  (alpha m))
+
 (cl:ensure-generic-function 'frontBlocked-val :lambda-list '(m))
 (cl:defmethod frontBlocked-val ((m <pid_input>))
   (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader rc_car-msg:frontBlocked-val is deprecated.  Use rc_car-msg:frontBlocked instead.")
@@ -78,6 +88,11 @@
     (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
     (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
+  (cl:let ((bits (roslisp-utils:encode-single-float-bits (cl:slot-value msg 'alpha))))
+    (cl:write-byte (cl:ldb (cl:byte 8 0) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 8) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 16) bits) ostream)
+    (cl:write-byte (cl:ldb (cl:byte 8 24) bits) ostream))
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'frontBlocked) 1 0)) ostream)
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'leftBlocked) 1 0)) ostream)
   (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'rightBlocked) 1 0)) ostream)
@@ -96,6 +111,12 @@
       (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
       (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
     (cl:setf (cl:slot-value msg 'error) (roslisp-utils:decode-single-float-bits bits)))
+    (cl:let ((bits 0))
+      (cl:setf (cl:ldb (cl:byte 8 0) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 8) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 16) bits) (cl:read-byte istream))
+      (cl:setf (cl:ldb (cl:byte 8 24) bits) (cl:read-byte istream))
+    (cl:setf (cl:slot-value msg 'alpha) (roslisp-utils:decode-single-float-bits bits)))
     (cl:setf (cl:slot-value msg 'frontBlocked) (cl:not (cl:zerop (cl:read-byte istream))))
     (cl:setf (cl:slot-value msg 'leftBlocked) (cl:not (cl:zerop (cl:read-byte istream))))
     (cl:setf (cl:slot-value msg 'rightBlocked) (cl:not (cl:zerop (cl:read-byte istream))))
@@ -109,18 +130,19 @@
   "rc_car/pid_input")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<pid_input>)))
   "Returns md5sum for a message object of type '<pid_input>"
-  "84623ee5a6b9076f2f5764e660ccbc8b")
+  "c00c80f75c7f8370b2b959b7435e5d0a")
 (cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'pid_input)))
   "Returns md5sum for a message object of type 'pid_input"
-  "84623ee5a6b9076f2f5764e660ccbc8b")
+  "c00c80f75c7f8370b2b959b7435e5d0a")
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<pid_input>)))
   "Returns full string definition for message of type '<pid_input>"
-  (cl:format cl:nil "float32 vel~%float32 error~%bool frontBlocked~%bool leftBlocked~%bool rightBlocked~%~%"))
+  (cl:format cl:nil "float32 vel~%float32 error~%float32 alpha~%bool frontBlocked~%bool leftBlocked~%bool rightBlocked~%~%"))
 (cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'pid_input)))
   "Returns full string definition for message of type 'pid_input"
-  (cl:format cl:nil "float32 vel~%float32 error~%bool frontBlocked~%bool leftBlocked~%bool rightBlocked~%~%"))
+  (cl:format cl:nil "float32 vel~%float32 error~%float32 alpha~%bool frontBlocked~%bool leftBlocked~%bool rightBlocked~%~%"))
 (cl:defmethod roslisp-msg-protocol:serialization-length ((msg <pid_input>))
   (cl:+ 0
+     4
      4
      4
      1
@@ -132,6 +154,7 @@
   (cl:list 'pid_input
     (cl:cons ':vel (vel msg))
     (cl:cons ':error (error msg))
+    (cl:cons ':alpha (alpha msg))
     (cl:cons ':frontBlocked (frontBlocked msg))
     (cl:cons ':leftBlocked (leftBlocked msg))
     (cl:cons ':rightBlocked (rightBlocked msg))

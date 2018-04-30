@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node name="odom_tf" pkg="rc_car" type="odom_tf.py" output="screen">
+		<param name="odom_input" value="/scanmatch_odom" />
+		<param name="tf_output" value="/base_frame" />
+	</node>
+</launch>

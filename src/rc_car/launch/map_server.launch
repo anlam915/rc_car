@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+	<!-- Run the map server -->
+	<arg name ="map_file_path" default="$(find rc_car)/maps/engr487_map.yaml" />
+	<node name="engr_487" pkg="map_server" type="map_server" args="$(arg map_file_path)" />
+
+	<!-- Run RPlidar -->
+	<include file="$(find rplidar_ros)/launch/rplidar.launch" />
+	<include file="$(find hector_slam_launch)/launch/tutorial.launch" />
+
+</launch>
