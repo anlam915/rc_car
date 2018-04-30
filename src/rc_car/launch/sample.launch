@@ -41,8 +41,8 @@
   
   	<node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
   	<!-- Additional changes for amcl, will use odometry published. Do not need map topic -->
-	    <remap from="map" to="/map_hector" />
-	    <param name="pub_odometry" value="true"/>	
+	    <remap from="map" to="/map_hector" /> 	<!-- Remap the map topic away -->
+	    <param name="pub_odometry" value="true"/>	<!-- Odometry will be published to scanmatch_odom topic -->
 	    <!-- Frame names -->
 	    <param name="map_frame" value="/map_hector" />
 	    <param name="base_frame" value="$(arg base_frame)" />
@@ -51,7 +51,7 @@
 	    <!-- Tf use -->
 	    <param name="use_tf_scan_transformation" value="true"/>
 	    <param name="use_tf_pose_start_estimate" value="false"/>
-	    <param name="pub_map_odom_transform" value="$(arg pub_map_odom_transform)"/>
+	    <param name="pub_map_odom_transform" value="$(arg pub_map_odom_transform)"/> <!-- Determines if map->odom should be published by the system -->
 
 
 	    
@@ -131,10 +131,10 @@
 	  <param name="recovery_alpha_fast" value="0.0"/>
 
 	  <!-- added adjustments for frame names-->
-	  <param name="use_map_topic" value="true" />
-	  <param name="base_frame_id" value="/base_frame" />
-	  <param name="global_frame_id" value="/map" />
-	  <param name="odom_frame_id" value="/scanmatcher_odom" />
+	  <param name="use_map_topic" value="true" /> 		<!-- AMCL will subscribe to map topic -->
+	  <param name="base_frame_id" value="/base_frame" /> <!-- which frame to use for robot base -->
+	  <param name="global_frame_id" value="/map" />   
+	  <param name="odom_frame_id" value="/scanmatcher_frame" /> <!-- which frame to use for odometry -->
 	</node>
 
 </launch>

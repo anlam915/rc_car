@@ -25,5 +25,5 @@ if __name__ == '__main__':
 	rospy.init_node('Odom node')
 	odom_input = rospy.get_param("~odom_input");
 	tf_output = rospy.get_param("~tf_output");
-	rospy.Subscriber('odom_input', nav_msg.Odometry, callback, [odom_input, tf_output] )
+	rospy.Subscriber(odom_input, nav_msg.Odometry, callback, [odom_input, tf_output] )
 	rospy.spin()
