@@ -1,0 +1,10 @@
+digraph G {
+"world" -> "map"[label="Broadcaster: /static_tf0\nAverage rate: 10.075 Hz\nMost recent transform: 1525227367.702 ( -0.061 sec old)\nBuffer length: 4.864 sec\n"];
+"map" -> "scanmatch_odom"[label="Broadcaster: /amcl\nAverage rate: 13.660 Hz\nMost recent transform: 1525227367.698 ( -0.058 sec old)\nBuffer length: 4.832 sec\n"];
+"scanmatch_odom" -> "base_frame"[label="Broadcaster: /odom_tf\nAverage rate: 13.660 Hz\nMost recent transform: 1525227367.579 ( 0.061 sec old)\nBuffer length: 4.832 sec\n"];
+"base_frame" -> "laser"[label="Broadcaster: /base_frame_to_laser\nAverage rate: 10.094 Hz\nMost recent transform: 1525227367.705 ( -0.064 sec old)\nBuffer length: 4.854 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1525227367.640"[ shape=plaintext ] ;
+ }->"world";
+}
