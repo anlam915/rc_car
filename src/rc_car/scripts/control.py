@@ -101,7 +101,7 @@ def control(data):
 	# 3. Make sure the error is within bounds
 	else: 	
 
- 		angle = kp * data.error + kd * (prev_error - data.error)
+ 		angle = kp * data.error + kd * (data.error - prev_error)
 
  		if angle > 90:
  			angle = 90
