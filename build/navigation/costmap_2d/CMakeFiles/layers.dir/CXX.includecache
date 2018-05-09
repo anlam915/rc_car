@@ -334,20 +334,6 @@ pluginlib/class_list_macros.h
 pcl_conversions/pcl_conversions.h
 -
 
-/home/andyklam/catkin_ws/src/navigation/costmap_2d/src/observation_buffer.cpp
-costmap_2d/observation_buffer.h
--
-pcl/point_types.h
--
-pcl_ros/transforms.h
--
-pcl/conversions.h
--
-pcl/PCLPointCloud2.h
--
-pcl_conversions/pcl_conversions.h
--
-
 /home/andyklam/catkin_ws/src/navigation/voxel_grid/include/voxel_grid/voxel_grid.h
 stdio.h
 -
@@ -1230,16 +1216,6 @@ ros/serialization.h
 ros/builtin_message_traits.h
 -
 ros/message_operations.h
--
-
-/opt/ros/indigo/include/pcl_ros/transforms.h
-sensor_msgs/PointCloud2.h
--
-pcl/common/transforms.h
--
-tf/transform_datatypes.h
--
-tf/transform_listener.h
 -
 
 /opt/ros/indigo/include/pluginlib/class_list_macros.h
@@ -2762,22 +2738,6 @@ src/Core/util/ReenableStupidWarnings.h
 Eigen2Support
 /usr/include/eigen3/Eigen/Eigen2Support
 
-/usr/include/eigen3/Eigen/Dense
-Core
-/usr/include/eigen3/Eigen/Core
-LU
-/usr/include/eigen3/Eigen/LU
-Cholesky
-/usr/include/eigen3/Eigen/Cholesky
-QR
-/usr/include/eigen3/Eigen/QR
-SVD
-/usr/include/eigen3/Eigen/SVD
-Geometry
-/usr/include/eigen3/Eigen/Geometry
-Eigenvalues
-/usr/include/eigen3/Eigen/Eigenvalues
-
 /usr/include/eigen3/Eigen/Eigen2Support
 src/Core/util/DisableStupidWarnings.h
 /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h
@@ -3602,64 +3562,8 @@ ostream
 pcl/pcl_macros.h
 -
 
-/usr/include/pcl-1.7/pcl/cloud_iterator.h
-pcl/point_cloud.h
--
-pcl/PointIndices.h
--
-pcl/correspondence.h
--
-pcl/impl/cloud_iterator.hpp
--
-
-/usr/include/pcl-1.7/pcl/common/centroid.h
-pcl/point_cloud.h
--
-pcl/point_traits.h
--
-pcl/PointIndices.h
--
-pcl/cloud_iterator.h
--
-pcl/common/impl/centroid.hpp
--
-
 /usr/include/pcl-1.7/pcl/common/concatenate.h
 pcl/conversions.h
--
-
-/usr/include/pcl-1.7/pcl/common/eigen.h
-cmath
--
-Eigen/StdVector
--
-Eigen/Core
--
-Eigen/Eigenvalues
--
-Eigen/Geometry
--
-Eigen/SVD
--
-Eigen/LU
--
-Eigen/Dense
--
-Eigen/Eigenvalues
--
-pcl/common/impl/eigen.hpp
--
-
-/usr/include/pcl-1.7/pcl/common/impl/centroid.hpp
-pcl/common/centroid.h
--
-pcl/conversions.h
--
-boost/mpl/size.hpp
--
-
-/usr/include/pcl-1.7/pcl/common/impl/eigen.hpp
-pcl/pcl_macros.h
 -
 
 /usr/include/pcl-1.7/pcl/common/impl/io.hpp
@@ -3667,8 +3571,6 @@ pcl/common/concatenate.h
 -
 pcl/point_types.h
 -
-
-/usr/include/pcl-1.7/pcl/common/impl/transforms.hpp
 
 /usr/include/pcl-1.7/pcl/common/io.h
 string
@@ -3686,20 +3588,6 @@ pcl/common/impl/io.hpp
 
 /usr/include/pcl-1.7/pcl/common/point_tests.h
 Eigen/src/StlSupport/details.h
--
-
-/usr/include/pcl-1.7/pcl/common/transforms.h
-pcl/point_cloud.h
--
-pcl/point_types.h
--
-pcl/common/centroid.h
--
-pcl/common/eigen.h
--
-pcl/PointIndices.h
--
-pcl/common/impl/transforms.hpp
 -
 
 /usr/include/pcl-1.7/pcl/console/print.h
@@ -3732,16 +3620,6 @@ pcl/console/print.h
 boost/foreach.hpp
 -
 
-/usr/include/pcl-1.7/pcl/correspondence.h
-boost/shared_ptr.hpp
--
-Eigen/StdVector
--
-Eigen/Geometry
--
-pcl/pcl_exports.h
--
-
 /usr/include/pcl-1.7/pcl/exceptions.h
 stdexcept
 -
@@ -3772,10 +3650,6 @@ boost/mpl/not.hpp
 boost/mpl/aux_/unwrap.hpp
 -
 boost/type_traits/is_same.hpp
--
-
-/usr/include/pcl-1.7/pcl/impl/cloud_iterator.hpp
-pcl/cloud_iterator.h
 -
 
 /usr/include/pcl-1.7/pcl/impl/pcl_base.hpp

@@ -100,16 +100,6 @@ boost/thread/mutex.hpp
 fstream
 -
 
-/home/andyklam/catkin_ws/src/navigation/robot_pose_ekf/src/nonlinearanalyticconditionalgaussianodo.cpp
-robot_pose_ekf/nonlinearanalyticconditionalgaussianodo.h
--
-bfl/wrappers/rng/rng.h
--
-
-/home/andyklam/catkin_ws/src/navigation/robot_pose_ekf/src/odom_estimation.cpp
-robot_pose_ekf/odom_estimation.h
--
-
 /home/andyklam/catkin_ws/src/navigation/robot_pose_ekf/src/odom_estimation_node.cpp
 robot_pose_ekf/odom_estimation_node.h
 -
@@ -403,10 +393,6 @@ vector_LTI.h
 /opt/ros/indigo/include/bfl/wrappers/matrix/vector_LTI.h
 vector_BOOST.h
 /opt/ros/indigo/include/bfl/wrappers/matrix/vector_BOOST.h
-
-/opt/ros/indigo/include/bfl/wrappers/rng/rng.h
-../../sample/sample.h
-/opt/ros/indigo/include/bfl/sample/sample.h
 
 /opt/ros/indigo/include/geometry_msgs/Point.h
 string

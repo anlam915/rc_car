@@ -8,8 +8,10 @@
   <param name="odom_used" value="true"/>
   <param name="imu_used" value="false"/>
   <param name="vo_used" value="false"/>
+  <param name="debug" value="false" />
+  <param name="self_diagnose" value="false" />
 
-  <remap from="odom" to="scanmatch_odom" />
+  <!-- <remap from="odom" to="odom" /> -->
 </node>
 
 </launch>

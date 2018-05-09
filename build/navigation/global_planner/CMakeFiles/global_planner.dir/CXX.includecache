@@ -236,22 +236,6 @@ stdio.h
 global_planner/planner_core.h
 -
 
-/home/andyklam/catkin_ws/src/navigation/global_planner/src/grid_path.cpp
-global_planner/grid_path.h
--
-algorithm
--
-stdio.h
--
-
-/home/andyklam/catkin_ws/src/navigation/global_planner/src/orientation_filter.cpp
-global_planner/orientation_filter.h
--
-tf/tf.h
--
-angles/angles.h
--
-
 /home/andyklam/catkin_ws/src/navigation/global_planner/src/planner_core.cpp
 global_planner/planner_core.h
 -
@@ -271,10 +255,6 @@ global_planner/grid_path.h
 -
 global_planner/gradient_path.h
 -
-global_planner/quadratic_calculator.h
--
-
-/home/andyklam/catkin_ws/src/navigation/global_planner/src/quadratic_calculator.cpp
 global_planner/quadratic_calculator.h
 -
 
@@ -298,12 +278,6 @@ string
 vector
 -
 time.h
--
-
-/opt/ros/indigo/include/angles/angles.h
-algorithm
--
-cmath
 -
 
 /opt/ros/indigo/include/class_loader/class_loader.h

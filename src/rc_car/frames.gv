@@ -1,10 +1,12 @@
 digraph G {
-"scanmatch_odom" -> "base_frame"[label="Broadcaster: /odom_tf\nAverage rate: 12.823 Hz\nMost recent transform: 1524861139.271 ( 0.052 sec old)\nBuffer length: 4.913 sec\n"];
-"map" -> "scanmatch_odom"[label="Broadcaster: /amcl\nAverage rate: 12.839 Hz\nMost recent transform: 1524861139.396 ( -0.073 sec old)\nBuffer length: 4.907 sec\n"];
-"world" -> "map"[label="Broadcaster: /static_tf0\nAverage rate: 9.631 Hz\nMost recent transform: 1524861139.398 ( -0.075 sec old)\nBuffer length: 4.880 sec\n"];
-"base_frame" -> "laser"[label="Broadcaster: /base_frame_to_laser\nAverage rate: 9.631 Hz\nMost recent transform: 1524861139.398 ( -0.075 sec old)\nBuffer length: 4.880 sec\n"];
+"world" -> "map"[label="Broadcaster: /static_tf0\nAverage rate: 10.105 Hz\nMost recent transform: 1525652824.512 ( -0.012 sec old)\nBuffer length: 4.750 sec\n"];
+"base_frame" -> "laser"[label="Broadcaster: /base_frame_to_laser\nAverage rate: 10.093 Hz\nMost recent transform: 1525652824.521 ( -0.021 sec old)\nBuffer length: 4.756 sec\n"];
 edge [style=invis];
  subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
-"Recorded at time: 1524861139.323"[ shape=plaintext ] ;
+"Recorded at time: 1525652824.500"[ shape=plaintext ] ;
  }->"world";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1525652824.500"[ shape=plaintext ] ;
+ }->"base_frame";
 }
