@@ -26,7 +26,11 @@
  	<node pkg="tf" type="static_transform_publisher" name="static_tf0" args="1 0 0 0 0 0  /world /map 100"/>
 	<node pkg="tf" type="static_transform_publisher" name="base_frame_to_laser" args="0.0 0.0 0.0 0.0 0.0 0.0 /base_frame /laser 100" />
 
+<<<<<<< HEAD:src/rc_car/launch/amcl_test2.launch
 <!-- ROBOT POSE EKF -->
 
 
 </launch>
+=======
+</launch>
+>>>>>>> bb057305eccad22f51407cc985ff2b24cf75e582:src/rc_car/launch/localization.launch
