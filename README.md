@@ -34,7 +34,6 @@ roslaunch rc_car pid.launch
 - Map Generation
 ```
 roslaunch rc_car tutorial.launch
-
 ```
 - Localization
 ```
