@@ -1,13 +1,5 @@
 #!/usr/bin/env python
 
-'''-----------------------------------DISTANCE FINDER NODE-------------------------------------------------------------------
-	Tasks:
-		(1) Read distance given by RP Lidar and calculate how far away from wall (desired distance)
-		(2) Given the distance, determine whether or not there is an obstacle in front (front sector)
-		(3) If there is no obstacle then clear flag to signify that vehicle should continue its normal path (parallel to wall)
-			else set the flag to navigate around an obstacle
-------------------------------------------------------------------------------------------------------------------------------
-'''
 
 import rospy
 import math
