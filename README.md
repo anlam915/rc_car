@@ -8,6 +8,9 @@ Self-driving RC car built on Robot Operating System (ROS indigo) platform. Uses 
 - Ubuntu 14.04 // Raspberry Pi 3(Ubuntu Mate)
 
 ## Package descriptions (src/)
+- hector_slam/
+- navigation/amcl
+  - **amcl**: node for Adaptive Monte Carlo Localization
 - rc_car/
   - **dist_finder.py**: calculates error for PID control and detect obstacles based on laser scan distance data
   - **control.py**: generates commands for car movement
@@ -15,10 +18,12 @@ Self-driving RC car built on Robot Operating System (ROS indigo) platform. Uses 
   - **teleop_to_arduino.py**: translates teleoperation commands to steering angle and velocity for full keyboard control of rc car
   - **tutorial.launch**: launches map generation via hector_mapping
   - **localization.launch**: execution of localization within a saved map via amcl
-- rplidar_ros
-  - **rplidar.launch**: initiates lidar scanning
 - rosserial/rosserial_python
   - **serial_node.py**: forwards messages between ROS and Arduino via serial port
+- rplidar_ros
+  - **rplidar.launch**: initiates lidar scanning
+
+
 
 ## System setup
 1. Flash Arduino with pid_to_servo.ino, found in the root directory 
