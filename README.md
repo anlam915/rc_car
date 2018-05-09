@@ -20,17 +20,23 @@ Self-driving RC car built on Robot Operating System (ROS indigo) platform. Uses 
 - rosserial/rosserial_python
   - **serial_node.py**: forwards messages between ROS and Arduino via serial port
 
-
-
-### Hector SLAM
+## System setup
+1. Flash Arduino with pid_to_servo.ino, found in the root directory 
+2. Build ROS workspace via catkin_make
+3. Start up lidar and we may choose one of the following tasks
 ```
-roslaunch hector_slam_launch tutorial.launch
+roslaunch rplidar_ros rplidar.launch
 ```
-### Parallel wall w/ PID control
+- PID control
 ```
 roslaunch rc_car pid.launch
 ```
-### Adaptive Monte Carlo Localization
-```
-roslaunch rc_car amcl_test2.launch
-```
+- Map Generation
+  ```
+  roslaunch rc_car tutorial.launch
+  
+  ```
+- Localization
+  ```
+  roslaunch rc_car localization.launch
+  ```
