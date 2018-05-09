@@ -32,11 +32,11 @@ roslaunch rplidar_ros rplidar.launch
 roslaunch rc_car pid.launch
 ```
 - Map Generation
-  ```
-  roslaunch rc_car tutorial.launch
-  
-  ```
+```
+roslaunch rc_car tutorial.launch
+
+```
 - Localization
-  ```
-  roslaunch rc_car localization.launch
-  ```
+```
+roslaunch rc_car localization.launch
+```
